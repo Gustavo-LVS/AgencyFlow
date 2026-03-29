@@ -11,9 +11,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { LeadsService } from '../../../core/services/leads.service';
-import { NotificationService } from '../../../core/services/notification.service';
-import { CreateLeadDto, EtapaLead, ETAPAS_CONFIG } from '../../../core/models/lead.model';
+import { LeadsService } from '../../core/services/leads.service';
+import { NotificationService } from '../../core/services/notification.service';
+import { CreateLeadDto, EtapaLead, ETAPAS_CONFIG, Lead } from '../../core/models/lead.model';
 
 @Component({
   selector: 'app-criar-lead-dialog',
@@ -228,11 +228,11 @@ export class CriarLeadDialogComponent implements OnInit {
     const dto: CreateLeadDto = this.form.value;
 
     this.leadsService.create(dto).subscribe({
-      next: (lead) => {
+      next: (lead: Lead) => {
         this.notification.success(`Lead "${lead.nome}" criado com sucesso!`);
         this.dialogRef.close(lead);
       },
-      error: (err) => {
+      error: (err: Error) => {
         this.notification.error(err.message || 'Erro ao criar lead');
         this.loading = false;
       },

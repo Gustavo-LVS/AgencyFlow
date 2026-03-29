@@ -16,12 +16,12 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 
-import { PropostasService } from '../../../core/services/propostas.service';
-import { NotificationService } from '../../../core/services/notification.service';
+import { PropostasService } from '../../core/services/propostas.service';
+import { NotificationService } from '../../core/services/notification.service';
 import {
-  CreatePropostaDto, TIPOS_SERVICO_OPTIONS, TipoServico, Complexidade
-} from '../../../core/models/proposta.model';
-import { Lead } from '../../../core/models/lead.model';
+  CreatePropostaDto, TIPOS_SERVICO_OPTIONS, TipoServico, Complexidade, Proposta
+} from '../../core/models/proposta.model';
+import { Lead } from '../../core/models/lead.model';
 
 export interface CriarPropostaDialogData {
   lead: Lead;
@@ -281,11 +281,11 @@ export class CriarPropostaDialogComponent implements OnInit {
     };
 
     this.propostasService.create(dto).subscribe({
-      next: (proposta) => {
+      next: (proposta: Proposta) => {
         this.notification.success('Proposta gerada com sucesso!');
         this.dialogRef.close(proposta);
       },
-      error: (err) => {
+      error: (err: Error) => {
         this.notification.error(err.message || 'Erro ao gerar proposta');
         this.loading = false;
       },

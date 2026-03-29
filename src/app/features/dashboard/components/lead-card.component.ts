@@ -47,7 +47,6 @@ import { Lead } from '../../../core/models/lead.model';
             <mat-icon>folder_open</mat-icon>
             <span>Ver Propostas</span>
           </button>
-          <mat-divider></mat-divider>
           <button mat-menu-item (click)="onDelete()" class="delete-option">
             <mat-icon color="warn">delete</mat-icon>
             <span style="color: #c62828">Remover Lead</span>
@@ -206,8 +205,8 @@ export class LeadCardComponent {
   @Output() delete = new EventEmitter<Lead>();
 
   private readonly CORES_AVATAR = [
-    '#3f51b5','#7c4dff','#00897b','#e91e63',
-    '#ff5722','#1976d2','#388e3c','#f57c00',
+    '#3f51b5', '#7c4dff', '#00897b', '#e91e63',
+    '#ff5722', '#1976d2', '#388e3c', '#f57c00',
   ];
 
   getInitials(): string {
@@ -226,6 +225,6 @@ export class LeadCardComponent {
   }
 
   onCriarProposta(): void { this.criarProposta.emit(this.lead); }
-  onVerPropostas(): void  { this.verPropostas.emit(this.lead); }
-  onDelete(): void        { this.delete.emit(this.lead); }
+  onVerPropostas(): void { this.verPropostas.emit(this.lead); }
+  onDelete(): void { this.delete.emit(this.lead); }
 }

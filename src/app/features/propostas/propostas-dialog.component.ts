@@ -9,12 +9,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 
-import { PropostasService } from '../../../core/services/propostas.service';
-import { NotificationService } from '../../../core/services/notification.service';
+import { PropostasService } from '../../core/services/propostas.service';
+import { NotificationService } from '../../core/services/notification.service';
 import {
-  Proposta, StatusProposta, STATUS_PROPOSTA_CONFIG, TIPOS_SERVICO_OPTIONS
-} from '../../../core/models/proposta.model';
-import { Lead } from '../../../core/models/lead.model';
+  Proposta, StatusProposta, STATUS_PROPOSTA_CONFIG, TIPOS_SERVICO_OPTIONS, TipoServicoOption
+} from '../../core/models/proposta.model';
+import { Lead } from '../../core/models/lead.model';
 
 @Component({
   selector: 'app-propostas-dialog',
@@ -217,8 +217,8 @@ export class PropostasDialogComponent implements OnInit {
   propostas: Proposta[] = [];
   loading = true;
 
-  private readonly tiposMap = new Map(
-    TIPOS_SERVICO_OPTIONS.map(t => [t.value, t])
+  private readonly tiposMap = new Map<string, TipoServicoOption>(
+    TIPOS_SERVICO_OPTIONS.map((t: TipoServicoOption) => [t.value, t] as [string, TipoServicoOption])
   );
 
   constructor(
@@ -230,7 +230,7 @@ export class PropostasDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.propostasService.getByLeadId(this.data.lead.id).subscribe({
-      next: (p) => { this.propostas = p; this.loading = false; },
+      next: (p: Proposta[]) => { this.propostas = p; this.loading = false; },
       error: () => { this.loading = false; },
     });
   }
@@ -240,17 +240,17 @@ export class PropostasDialogComponent implements OnInit {
   }
 
   getServicoLabel(value: string): string {
-    return this.tiposMap.get(value as any)?.label ?? value;
+    return this.tiposMap.get(value)?.label ?? value;
   }
 
   getServicoIcon(value: string): string {
-    return this.tiposMap.get(value as any)?.icon ?? 'star';
+    return this.tiposMap.get(value)?.icon ?? 'star';
   }
 
   atualizarStatus(proposta: Proposta): void {
     this.propostasService.updateStatus(proposta.id, proposta.status).subscribe({
       next: () => this.notification.success('Status atualizado!'),
-      error: (err) => this.notification.error(err.message),
+      error: (err: Error) => this.notification.error(err.message),
     });
   }
 
