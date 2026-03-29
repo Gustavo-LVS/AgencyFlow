@@ -1,0 +1,133 @@
+// === AgencyFlow Global Styles ===
+
+@use '@angular/material' as mat;
+
+// Paleta customizada
+$primary-palette: mat.define-palette(mat.$indigo-palette, 600);
+$accent-palette: mat.define-palette(mat.$cyan-palette, 400);
+$warn-palette: mat.define-palette(mat.$red-palette);
+
+$theme: mat.define-light-theme((
+  color: (
+    primary: $primary-palette,
+    accent: $accent-palette,
+    warn: $warn-palette
+  ),
+  typography: mat.define-typography-config(
+    $font-family: 'Inter, Roboto, sans-serif'
+  ),
+  density: 0
+));
+
+@include mat.all-component-themes($theme);
+
+// Reset e base
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f5f6fa;
+  color: #1a1a2e;
+}
+
+// Scrollbar customizada
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c5c5d2;
+  border-radius: 3px;
+
+  &:hover {
+    background: #a0a0b2;
+  }
+}
+
+// Utilities
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-8 { gap: 8px; }
+.gap-16 { gap: 16px; }
+.w-full { width: 100%; }
+
+// Material overrides
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-shape: 12px;
+}
+
+.mat-mdc-card {
+  border-radius: 10px !important;
+}
+
+.mat-mdc-snack-bar-container {
+  &.success-snack {
+    --mdc-snackbar-container-color: #2e7d32;
+    --mat-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+  &.error-snack {
+    --mdc-snackbar-container-color: #c62828;
+    --mat-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+}
+
+// Kanban styles
+.cdk-drag-preview {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2) !important;
+  opacity: 0.95;
+  border-radius: 10px;
+  transform: rotate(2deg);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+  border: 2px dashed #9c27b0;
+  border-radius: 10px;
+  background: #f3e5f5;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-dragging .lead-card:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+// Form helpers
+.form-field-full {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+
+  > mat-form-field {
+    flex: 1;
+  }
+}
+
+// Chips
+.chip-novo { background: #e3f2fd !important; color: #1565c0 !important; }
+.chip-contato { background: #f3e5f5 !important; color: #6a1b9a !important; }
+.chip-proposta { background: #fff8e1 !important; color: #f57f17 !important; }
+.chip-negociacao { background: #e8f5e9 !important; color: #2e7d32 !important; }
+.chip-fechado { background: #e0f2f1 !important; color: #00695c !important; }
+.chip-perdido { background: #fce4ec !important; color: #880e4f !important; }
