@@ -187,8 +187,8 @@ type KanbanBoard = Record<EtapaLead, Lead[]>;
       top: 0;
       z-index: 100;
       height: 64px;
-      background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%) !important;
-      box-shadow: 0 2px 8px rgba(63,81,181,0.4);
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%) !important;
+      box-shadow: 0 2px 8px rgba(15,23,42,0.4);
     }
 
     .toolbar-inner {
@@ -242,7 +242,7 @@ type KanbanBoard = Record<EtapaLead, Lead[]>;
 
     .new-lead-btn {
       background: white !important;
-      color: #3f51b5 !important;
+      color: #0f172a !important;
       font-weight: 600;
       border-radius: 20px;
 
@@ -326,18 +326,22 @@ type KanbanBoard = Record<EtapaLead, Lead[]>;
     /* KANBAN BOARD */
     .kanban-board {
       display: flex;
-      gap: 14px;
+      gap: 10px;
       overflow-x: auto;
-      padding-bottom: 16px;
+      padding-bottom: 8px;
       min-height: calc(100vh - 280px);
 
-      &::-webkit-scrollbar { height: 6px; }
-      &::-webkit-scrollbar-track { background: #eee; border-radius: 3px; }
-      &::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+      /* Ocultando a barra de rolagem de forma simples e definitiva */
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE/Edge */
+      &::-webkit-scrollbar {
+        display: none; /* Chrome, Safari e Edge chromiun */
+      }
     }
 
     .kanban-column {
-      flex: 0 0 260px;
+      flex: 1;
+      min-width: 180px;
       display: flex;
       flex-direction: column;
       background: #f0f1f6;
@@ -396,7 +400,7 @@ type KanbanBoard = Record<EtapaLead, Lead[]>;
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 4px;
       min-height: 60px;
       border-radius: 8px;
       transition: background 0.2s;
@@ -478,7 +482,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private notification: NotificationService,
     private dialog: MatDialog,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.carregarDados();
@@ -501,20 +505,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
       leads: this.leadsService.getAll(),
       metrics: this.metricsService.get(),
     })
-    .pipe(
-      takeUntil(this.destroy$),
-      finalize(() => { this.loading = false; this.cdr.markForCheck(); })
-    )
-    .subscribe({
-      next: ({ leads, metrics }) => {
-        this.allLeads = leads;
-        this.metrics = metrics;
-        this.montarBoard(leads);
-      },
-      error: (err) => {
-        this.notification.error('Erro ao carregar dados: ' + err.message);
-      },
-    });
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => { this.loading = false; this.cdr.markForCheck(); })
+      )
+      .subscribe({
+        next: ({ leads, metrics }) => {
+          this.allLeads = leads;
+          this.metrics = metrics;
+          this.montarBoard(leads);
+        },
+        error: (err) => {
+          this.notification.error('Erro ao carregar dados: ' + err.message);
+        },
+      });
   }
 
   private montarBoard(leads: Lead[]): void {
